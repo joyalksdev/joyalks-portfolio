@@ -8,6 +8,19 @@
  font-family: 'Poppins';   
 }
 
+.font-display {
+  font-family: 'Bebas Neue', sans-serif;
+}
+.font-sans {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+@media (min-width: 768px) {
+  body {
+    cursor: none;
+  }
+}
+
 @theme inline {
  --radius-sm: calc(var(--radius) - 4px);
  --radius-md: calc(var(--radius) - 2px);

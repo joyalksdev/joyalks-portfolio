@@ -1,42 +1,121 @@
-// src/App.jsx
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import RootLayout from './components/layout/RootLayout';
-import Hero from './sections/Hero';
+import Home from './pages/Home';
 import About from './pages/About';
 import Work from './pages/Work';
 import Contact from './pages/Contact';
 
+// DevTools Detection Component
+function DevToolsProtection() {
+  useEffect(() => {
+    // Console message
+    console.clear();
+    console.log('%cConsole was cleared.', 'color: #71717a; font-size: 12px;');
+    console.log('%cBUILT BY JOYAL K.S.', 'color: #6366f1; font-size: 16px; font-weight: bold;');
+    console.log('%cStealing code is not cool! If you wanna learn, ask me from the contact page 😊', 'color: #f59e0b; font-size: 14px;');
+    console.log('%c→ https://joyalks.dev/contact', 'color: #6366f1; font-size: 14px; text-decoration: underline;');
 
-function Home() {
-  return (
-    <>
-      <Hero />
-    </>
-  );
+    // Check if already redirected (prevent loop)
+    const isBlocked = sessionStorage.getItem('devtools-blocked');
+    if (isBlocked === 'true') return;
+
+    // DevTools detection
+    let devtoolsOpen = false;
+    const threshold = 160;
+
+    const detectDevTools = () => {
+      const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+      const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+
+      if ((widthThreshold || heightThreshold) && !devtoolsOpen) {
+        devtoolsOpen = true;
+        sessionStorage.setItem('devtools-blocked', 'true');
+        // Redirect to blocked page
+        window.location.href = '/devtools-blocked.html';
+      }
+    };
+
+    // Check on resize
+    window.addEventListener('resize', detectDevTools);
+
+    // Initial check after small delay
+    const initialCheck = setTimeout(detectDevTools, 500);
+
+    // Periodic check
+    const interval = setInterval(detectDevTools, 2000);
+
+    // Disable right-click
+    const handleContextMenu = (e) => {
+      e.preventDefault();
+      return false;
+    };
+
+    // Disable keyboard shortcuts
+    const handleKeyDown = (e) => {
+      // F12
+      if (e.keyCode === 123) {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+Shift+I
+      if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+Shift+J
+      if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+U (view source)
+      if (e.ctrlKey && e.keyCode === 85) {
+        e.preventDefault();
+        return false;
+      }
+      // Ctrl+S (save)
+      if (e.ctrlKey && e.keyCode === 83) {
+        e.preventDefault();
+        return false;
+      }
+    };
+
+    document.addEventListener('contextmenu', handleContextMenu);
+    document.addEventListener('keydown', handleKeyDown);
+
+    // Disable text selection and copy
+    const disableSelect = (e) => {
+      e.preventDefault();
+      return false;
+    };
+
+    document.addEventListener('selectstart', disableSelect);
+    document.addEventListener('copy', disableSelect);
+
+    return () => {
+      window.removeEventListener('resize', detectDevTools);
+      clearTimeout(initialCheck);
+      clearInterval(interval);
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('selectstart', disableSelect);
+      document.removeEventListener('copy', disableSelect);
+    };
+  }, []);
+
+  return null;
 }
-
-
-function OnProgress() {
-  return (
-    <div className='pt-24 px-10 flex justify-center items-center '>
-      <div className='p-4 border border-neutral-50/10  flex flex-col items-center'>
-        <h2 className='text-xl font-bold'>Sorry for the Blank Page twin! </h2>
-        <p className='text-indigo-400'>I'll build ts asap!</p>
-      </div>
-    </div>
-  );
-}
-
 
 export default function App() {
   return (
     <BrowserRouter>
+      <DevToolsProtection />
       <Routes>
         <Route element={<RootLayout />}>
           <Route index element={<Home />} />
-          <Route path="/about" element={<OnProgress />} />
-          <Route path="/work" element={<OnProgress />} />
-          <Route path="/contact" element={<OnProgress />} />
+          <Route path="/work" element={<Work />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
         </Route>
       </Routes>
     </BrowserRouter>
