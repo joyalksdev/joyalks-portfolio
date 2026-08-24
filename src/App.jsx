@@ -16,11 +16,15 @@ function DevToolsProtection() {
     console.log('%cStealing code is not cool! If you wanna learn, ask me from the contact page 😊', 'color: #f59e0b; font-size: 14px;');
     console.log('%c→ https://joyalks.dev/contact', 'color: #6366f1; font-size: 14px; text-decoration: underline;');
 
+    // Only enable DevTools detection on desktop (not mobile)
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isMobile) return; // Skip DevTools detection on mobile devices
+
     // Check if already redirected (prevent loop)
     const isBlocked = sessionStorage.getItem('devtools-blocked');
     if (isBlocked === 'true') return;
 
-    // DevTools detection
+    // DevTools detection (desktop only)
     let devtoolsOpen = false;
     const threshold = 160;
 
@@ -45,13 +49,13 @@ function DevToolsProtection() {
     // Periodic check
     const interval = setInterval(detectDevTools, 2000);
 
-    // Disable right-click
+    // Disable right-click (desktop only)
     const handleContextMenu = (e) => {
       e.preventDefault();
       return false;
     };
 
-    // Disable keyboard shortcuts
+    // Disable keyboard shortcuts (desktop only)
     const handleKeyDown = (e) => {
       // F12
       if (e.keyCode === 123) {
@@ -83,7 +87,7 @@ function DevToolsProtection() {
     document.addEventListener('contextmenu', handleContextMenu);
     document.addEventListener('keydown', handleKeyDown);
 
-    // Disable text selection and copy
+    // Disable text selection and copy (desktop only)
     const disableSelect = (e) => {
       e.preventDefault();
       return false;
