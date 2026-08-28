@@ -1,10 +1,21 @@
 import { useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import RootLayout from './components/layout/RootLayout';
 import Home from './pages/Home';
 import About from './pages/About';
 import Work from './pages/Work';
 import Contact from './pages/Contact';
+
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 
 // DevTools Detection Component
 function DevToolsProtection() {
