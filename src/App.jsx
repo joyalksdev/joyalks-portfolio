@@ -113,7 +113,7 @@ function DevToolsProtection() {
 export default function App() {
   return (
     <BrowserRouter>
-      <DevToolsProtection />
+      {/* <DevToolsProtection /> */}
       <Routes>
         <Route element={<RootLayout />}>
           <Route index element={<Home />} />

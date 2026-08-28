@@ -7,9 +7,9 @@ const Home = () => {
   return (
     <>
       <Hero />
-      <SelectedWork />
       <About />
       <Skills />
+      <SelectedWork />
     </>
   );
 };
