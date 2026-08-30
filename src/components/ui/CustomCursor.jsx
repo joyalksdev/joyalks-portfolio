@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { Eye } from "@phosphor-icons/react";
 
 export default function CustomCursor() {
   const [cursorState, setCursorState] = useState("default"); // default, hover, view
   const [rotation, setRotation] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
@@ -15,6 +17,8 @@ export default function CustomCursor() {
   const cursorY = useSpring(mouseY, springConfig);
 
   useEffect(() => {
+    setMounted(true);
+
     const handleMouseMove = (e) => {
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
@@ -60,11 +64,13 @@ export default function CustomCursor() {
     }
   }, [cursorState]);
 
-  return (
+  if (!mounted || typeof window === "undefined") return null;
+
+  return createPortal(
     <>
       {/* Main Cursor Ring */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9999] hidden md:block"
+        className="fixed top-0 left-0 pointer-events-none z-[99999] hidden md:block"
         style={{
           x: cursorX,
           y: cursorY,
@@ -131,7 +137,7 @@ export default function CustomCursor() {
 
       {/* Center Dot */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9999] hidden md:block"
+        className="fixed top-0 left-0 pointer-events-none z-[99999] hidden md:block"
         style={{
           x: mouseX,
           y: mouseY,
@@ -149,7 +155,7 @@ export default function CustomCursor() {
 
       {/* Glow Effect */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9998] hidden md:block"
+        className="fixed top-0 left-0 pointer-events-none z-[99998] hidden md:block"
         style={{
           x: cursorX,
           y: cursorY,
@@ -163,6 +169,7 @@ export default function CustomCursor() {
       >
         <div className="w-20 h-20 bg-indigo-500 rounded-full blur-2xl" />
       </motion.div>
-    </>
+    </>,
+    document.body
   );
 }

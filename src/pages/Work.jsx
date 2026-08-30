@@ -3,61 +3,7 @@ import { ArrowUpRight, GithubLogo, Star, X, ArrowRight } from "@phosphor-icons/r
 import { useState, useEffect } from "react";
 import SectionBadge from "../components/ui/SectionBadge";
 import ParallaxSection from "../components/ui/ParallaxSection";
-
-const projects = [
-  {
-    title: "CineMood AI",
-    category: "AI & Semantic Search",
-    description: "Movie discovery platform leveraging Gemini API natural language parsing to match films based on emotional context and mood-driven recommendations.",
-    tags: ["React", "Node.js", "Express", "MongoDB", "Tailwind CSS", "Gemini API"],
-    github: "https://github.com/joyalksdev/cinemood",
-    githubStars: 12,
-    live: "https://cinemood.vercel.app",
-    thumbnail: "/projects/cinemood-thumb.png",
-    detailedImage: "/projects/cinemood-detail.png",
-    gradient: "from-purple-500/20 via-pink-500/20 to-rose-500/20",
-    accent: "#a855f7",
-  },
-  {
-    title: "NexCart Platform",
-    category: "E-Commerce System",
-    description: "High-performance storefront with modular API routing, secure cart states, and resilient cloud microservices architecture.",
-    tags: ["React", "Node.js", "Express", "MongoDB", "Tailwind CSS", "REST API"],
-    github: "https://github.com/joyalksdev/nexcart",
-    githubStars: 8,
-    live: "https://nexcart.vercel.app",
-    thumbnail: "/projects/nexcart-thumb.png",
-    detailedImage: "/projects/nexcart-detail.png",
-    gradient: "from-blue-500/20 via-cyan-500/20 to-teal-500/20",
-    accent: "#06b6d4",
-  },
-  {
-    title: "Kripa Trust",
-    category: "Web & Admin System",
-    description: "Full-stack web overhaul featuring custom media administration feeds, Mongoose schema models, and secure access control.",
-    tags: ["React", "Express", "MongoDB", "Tailwind CSS"],
-    github: "https://github.com/joyalksdev/kripa-trust",
-    githubStars: 5,
-    live: "#",
-    thumbnail: "/projects/kripa-thumb.png",
-    detailedImage: "/projects/kripa-detail.png",
-    gradient: "from-emerald-500/20 via-green-500/20 to-lime-500/20",
-    accent: "#22c55e",
-  },
-  {
-    title: "MERN API Core",
-    category: "Backend Microservices",
-    description: "Scalable REST API architecture designed with JWT token authorization, database connection pooling, and rate-limiting middleware.",
-    tags: ["Node.js", "Express", "MongoDB", "JWT", "REST APIs"],
-    github: "https://github.com/joyalksdev",
-    githubStars: 15,
-    live: "#",
-    thumbnail: "/projects/api-thumb.png",
-    detailedImage: "/projects/api-detail.png",
-    gradient: "from-orange-500/20 via-amber-500/20 to-yellow-500/20",
-    accent: "#f59e0b",
-  },
-];
+import { projects } from "../data/projects";
 
 /* ─── Desktop card with image reveal on hover ─── */
 const DesktopProjectCard = ({ project, index }) => {
@@ -85,7 +31,7 @@ const DesktopProjectCard = ({ project, index }) => {
           onError={(e) => { e.currentTarget.style.display = "none"; }}
           animate={{ scale: isHovered ? 1.05 : 1, opacity: isHovered ? 0 : 1 }}
           transition={{ duration: 0.5 }}
-          className="absolute inset-0 w-full h-full object-cover filter grayscale contrast-110"
+          className="absolute inset-0 w-full h-full object-cover"
         />
         <motion.img
           src={project.detailedImage}
