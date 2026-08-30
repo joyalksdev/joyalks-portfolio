@@ -21,7 +21,7 @@ export const projects = [
     title: "Kripa Charitable Trust",
     category: "Full-Stack Web App & CMS",
     description: "Next-gen platform powering a 300+ resident sanctuary. Built with an automated donation gateway, instant PDF receipt generation, and a custom media CMS.",
-    tags: ["React 19", "Node.js", "Express", "MongoDB", "Tailwind CSS"],
+    tags: ["React", "Node.js", "Express", "MongoDB", "Tailwind CSS"],
     github: "https://github.com/kripacharitabletrust/kripa-charitable-trust-website-v2",
     githubStars: 5,
     live: "https://kripacharitabletrust.org",
